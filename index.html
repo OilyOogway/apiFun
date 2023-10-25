@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: red;
+            text-align: center;
+        }
+
+        #pokemonInfo {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 100px;
+        }
+
+        #requiredInfo {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+        }
+        
+        #requiredInfo h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #requiredInfo p {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #666;
+        }
+
+        #requiredInfo a {
+            color: #0078d4;
+            text-decoration: none;
+        }
+
+        #requiredInfo a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="delibird.png" alt="">
+    <div id="pokemonInfo"></div>
+    <div id="requiredInfo">
+        <h2>API Info</h2>
+        <p>I chose the Pokémon API, which returns information on Pokémon such as their moves, abilities, description, etc.</p><br>
+        <p>The API URL and other info can be found at: <a href="https://pokeapi.co/" target="_blank">https://pokeapi.co/</a></p><br>
+        <p>I needed to pass in a Pokémon species and the Pokémon name as parameters.</p><br>
+        <p>The information that the API provides can be useful to fans struggling in-game and wanting more info on what their Pokémon can do.</p><br>
+        <p>It is also useful if you're bored and want to take a trip down nostalgia lane and just read up on all your favorites.</p>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $.get("https://pokeapi.co/api/v2/pokemon-species/delibird", function (data) {
+                const infoContainer = $("#pokemonInfo");
+                infoContainer.html(`
+                    <h2>Pokemon: ${data.name.toUpperCase()}</h2>
+                    <p>Base Happiness: ${data.base_happiness}</p>
+                    <p>Capture Rate: ${data.capture_rate}</p>
+                    <p>Color: ${data.color.name}</p>
+                    <p>Egg Groups: ${data.egg_groups.map(group => group.name).join(', ')}</p>
+                    <p>Description: ${data.flavor_text_entries[0].flavor_text}</p>
+                `);
+            })
+                .fail(function (error) {
+                    console.log(error);
+                });
+        });
+    </script>
+</body>
+
+</html>
